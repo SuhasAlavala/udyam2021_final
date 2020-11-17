@@ -325,10 +325,28 @@
 
     <!-- videopart------------------------------------------------------------------ -->
     <div id="ourhome">
-        <video loop autobuffer muted playsinline autoplay id="myvideo" > 
+        <video loop autobuffer muted playsinline id="myvideo" ontouchstart="this.play()"> 
             <!-- <source src="Assets/mobile.mp4" >  -->   
         </video>    
     </div>
+
+    <script type="text/javascript">
+        var ONLYONETIME_EXECUTE = null;
+        window.addEventListener('load', function(){ // on page load
+         
+              document.body.addEventListener('touchstart', function(e){
+            
+            if (ONLYONETIME_EXECUTE == null) {   
+
+                video.play();
+
+                ONLYONETIME_EXECUTE = 0;
+            }
+
+          }, false)
+         
+        }, false)
+    </script>
 
     <script type="text/javascript">
         var video = document.getElementById('myvideo');
@@ -341,7 +359,7 @@
             var w = parseInt(window.innerWidth);
 
             if(w <= 500) {
-                source.setAttribute('src', '{% static "/Assets/mobile.mp4" %}'); 
+                source.setAttribute('src', '{% static "/Assets/mobile.webm" %}'); 
                 video.load();
                 var playPromise = video.play();
                 if (playPromise !== undefined) {
@@ -388,15 +406,15 @@
                     
                     <div class="mt-3 mainimg" data-toggle="modal" data-target=".video-modal-lg">
                         <img src="{% static 'Assets/abstract.jpg' %}" class="yt-image" style="cursor: pointer" width="100%" alt="s">
-                        <a href="https://www.youtube.com/watch?v=I90caurLxeU&t" target="_blank"><img src="{% static 'Assets/play-button.png' %}" class="play-btn"></a> 
+                        <!-- <a href="https://www.youtube.com/watch?v=I90caurLxeU&t" target="_blank"><img src="{% static 'Assets/play-button.png' %}" class="play-btn"></a> --> 
                         <!-- <img src="{% static 'Assets/play-button.png' %}" class="play-btn" data-toggle="modal"
                             data-target="#exampleModal"> -->
                     </div>
                 </div>
                 <div
                     class="col-12 col-md-7 light stretch text-white text-left aboutText justify-content-center align-items-center d-flex flex-column">
-                    <p class="mb-3  aboutText1 faster">UDYAM  is the Annual Technical Festival of the Department of Electronics Engineering, IIT (BHU) Varanasi. UDYAM offers an opportunity for students to treat themselves to a technical extravaganza. It gives you a chance to be more actively involved in the learning experience at the heart of effective technology integration. It is a means for students to showcase their practical talent in their learning and not just limit themselves to theoretical knowledge. With this idea of an application-oriented approach, UDYAM started. The archetypal history of Udyam dates to 2010 with a vision of providing a platform for the community of indian students to develop and showcase their technical prowess.</p>
-                    <p class="mb-3 d-none d-md-block aboutText2 fast">It is not just these head to head competitions that you can get at Udyam. It's about the events that make you proficient with the industry standards. Limelight is on you. So, go with it and reinvent tomorrow instead of worrying about what happened yesterday. We promise that after three days of the fest, you will leave with a passion for innovating and shining. For the last 11 years, UDYAM has grown exponentially, developed, and crossing the boundaries. This year marks the 12'th Edition of UDYAM, IIT (BHU) Varanasi. Concentrating on a vast of exciting and engaging events, this Edition of UDYAM  promises to be elevated, unpredicted, and more prominent than ever before.</p>
+                    <p class="mb-3  aboutText1 faster">UDYAM  is the Annual Technical Festival of the Department of Electronics Engineering, IIT (BHU) Varanasi. UDYAM offers an opportunity for students to treat themselves to a technical extravaganza. It gives you a chance to be more actively involved in the learning experience at the heart of effective technology integration. It is a means for students to showcase their practical talent in their learning and not just limit themselves to theoretical knowledge. With this idea of an application-oriented approach, UDYAM started in 2010 with a vision of providing a platform for the community of Indian students to develop and showcase their technical prowess. It is not just these head to head competitions that you can get at Udyam. It's about the events that make you proficient with the industry standards. The limelight is on you.</p>
+                    <p class="mb-3 d-none d-md-block aboutText2 fast">For the last 11 years, UDYAM has grown exponentially, crossing all boundaries. This year marks the 12'th Edition of UDYAM, IIT (BHU) Varanasi. Concentrating on a vast number of exciting and engaging events, this edition of UDYAM  promises to be elevated, unpredicted, and more prominent than ever before.</p>
                     <p class="mb-3 aboutText3">Welcome to UDYAM'21.</p>
                 </div>
             </div>
