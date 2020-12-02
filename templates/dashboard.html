@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="logout">
-                            <a href="{% url 'logout' %}" class="fa fa-user-o">&nbsp Log Out</a>
+                            <a href="{% url 'logout' %}" style="font-family: 'Raleway', sans-serif;">Log Out</a>
                         </div>
                         <!-- Header Navbar Logo End -->
                     </div>
@@ -297,7 +297,7 @@
                                     <div class="modal-body">
                                         <form method="POST" action="{% url 'update-user' %}" enctype="multipart/form-data">{% csrf_token %}
                                             <div class="form-group">
-                                                <label>User Name</label>
+                                                <label>Username</label>
                                                 <input type="text" required class="form-control" name="username" aria-describedby="emailHelp" placeholder="User Name">
                                             </div>
                                             <div class="form-group">
@@ -321,7 +321,7 @@
                             <!-- <div class="profile--info myevent col-md-12 mymy" id="myevent1"> -->
                                 <table class="table">
                                     <tr>
-                                        <th class="fw--700 text-darkest">User Name</th>
+                                        <th class="fw--700 text-darkest">Username</th>
                                         <td>{{ user.first_name }}</td>
                                     </tr>
                                     <tr>

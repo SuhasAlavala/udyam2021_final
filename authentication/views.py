@@ -29,17 +29,15 @@ def HomeView(request):
 
 def LogoutView(request):
     logout(request)
-    return redirect('login')
+    return redirect('/')
 
 def LoginView(request):
+    form1 = AuthenticationForm()
+    form2 = SignUpForm()
     if request.method == 'POST':
-        form1 = AuthenticationForm()
-        form2 = SignUpForm()
-        print(request.POST.get('submit'))
         if request.POST.get('submit') == 'Login':
             form1 = AuthenticationForm(request=request, data = request.POST)
             if form1.is_valid():
-                print("YES")
                 email = form1.cleaned_data.get('username')
                 password = form1.cleaned_data.get('password')
                 print(email, password)
@@ -49,13 +47,10 @@ def LoginView(request):
                     login(request, user)
                     return redirect('dashboard')
                 else:
-                    return render(request, 'login.html', {'error': True})
+                    return render(request, 'login.html', {'form1':form1, 'form2': form2, 'error': 1})
         elif request.POST.get('submit') == 'Sign_up':
-            print('signin')
             form2 = SignUpForm(request.POST)
-            print(form2)
             if form2.is_valid():
-                print('valid')
                 user = form2.save(commit=False)
                 user.is_active = False
                 user.save()
@@ -71,9 +66,9 @@ def LoginView(request):
                 email = EmailMessage(mail_subject, message, to=[to_email])
                 email.send()
                 return render(request, 'email_verification.html')
-    else:
-        form1 = AuthenticationForm()
-        form2 = SignUpForm()
+            else:
+                form1 = AuthenticationForm()
+                form2 = SignUpForm()
     return render(request, 'login.html', {'form1':form1, 'form2': form2})
 
 # def SignupView(request):
