@@ -47,8 +47,8 @@ def LoginView(request):
                     login(request, user)
                     return redirect('dashboard')
                 else:
-                    return render(request, 'login.html', {'form1':form1, 'form2': form2, 'error': 1})
-        elif request.POST.get('submit') == 'Sign_up':
+                    return render(request, 'login.html', {'form1':form1, 'form2': form2})
+        elif request.POST.get('submit') == 'Sign up':
             form2 = SignUpForm(request.POST)
             if form2.is_valid():
                 user = form2.save(commit=False)
