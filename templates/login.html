@@ -1,8 +1,10 @@
-<!-- {% load static %}<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <script
       src="https://kit.fontawesome.com/64d58efce2.js"
       crossorigin="anonymous"
@@ -15,30 +17,6 @@
     <div class="container">
       <div class="forms-container">
         <div class="signin-signup">
-          <form action="{% url 'login' %}" method="POST" class="sign-in-form">{% csrf_token %}
-            <h2 class="title">Sign in</h2>
-
-            {% for field in form1 %}
-              <div class="input-field">
-                {% if field.name == 'username' %}
-                  <i class="fas fa-user"></i>
-                {% elif field.name == 'password' %}
-                  <i class="fas fa-lock"></i>
-                {% endif %}
-                {{ field.errors }}
-                {{ field }}
-              </div>
-            <p>
-              {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
-              {% endfor %}
-            </p>
-            {% endfor %}
-            <a href="{% url 'password_reset' %}" style="text-decoration: none;">Forgot Password?</a>
-            <input type="submit" value="Login" name="submit" class="btn solid" />
-          </form>
-
-
           <form action="{% url 'login' %}" method="POST" class="sign-up-form">{% csrf_token %}
             <h2 class="title">Sign up</h2>
             {% for field in form2 %}
@@ -62,12 +40,37 @@
                 {% endif %}
                 {{ field }}
               </div>
-              {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
-              {% endfor %}
+              <p>
+                {% for error in field.errors %}
+                  <p style="color: red; font-family: 'Open Sans', sans-serif; font-size: 1.5;">{{ error }}</p>
+                {% endfor %}
+              </p>
             {% endfor %}
             <input type="submit" class="btn" name="submit" value="Sign up" />
+
+          </form>
+
+
+          <form action="{% url 'login' %}" method="POST" class="sign-in-form">{% csrf_token %}
             
+            <h2 class="title">Sign in</h2>
+
+            {% for field in form1 %}
+              <div class="input-field">
+                {% if field.name == 'username' %}
+                  <i class="fas fa-user"></i>
+                {% elif field.name == 'password' %}
+                  <i class="fas fa-lock"></i>
+                {% endif %}
+                {{ field }}
+              </div>
+            {% endfor %}
+            {% if error %}
+                <p style="color: red; font-family: 'Open Sans', sans-serif; font-size: 1.5;">username and password doesn't match</p>
+            {% endif %}
+
+            <a href="{% url 'password_reset' %}" style="text-decoration: none;">Forgot Password?</a>
+            <input type="submit" value="Login" name="submit" class="btn solid" />
           </form>
           
         </div>
@@ -107,12 +110,28 @@
           $("#id_password").attr('placeholder', 'Password');
       });
     </script>
-    
+    <script>
+    function clickCounter() {
+      if(typeof(Storage) !== "undefined") {
+        if (sessionStorage.clickcount) {
+          sessionStorage.clickcount = Number(sessionStorage.clickcount)+1;
+        } else {
+          sessionStorage.clickcount = 1;
+        }
+      }
+    }
+    function signin(){
+      console.log(sessionStorage.clickcount);
+      if(sessionStorage.clickcount%2 == 1){
+        container.classList.add("sign-up-mode");
+      }
+    }
+    </script>
     <script src="{% static 'Javascript/login.js' %}"></script>
   </body>
-</html>         -->
+</html>        
 
-{% load static %}<!DOCTYPE html>
+<!-- {% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -238,4 +257,4 @@
     </script>
     <script src="{% static 'Javascript/login.js' %}"></script>
   </body>
-</html>
+</html> -->
