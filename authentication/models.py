@@ -4,9 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 from .managers import CustomUserManager
 from PIL import Image
-from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
-import sys
+# from io import BytesIO
+# from django.core.files.uploadedfile import InMemoryUploadedFile
+# import sys
 
 class User(AbstractUser):
     college_year = [
@@ -32,25 +32,12 @@ class User(AbstractUser):
     College_name = models.CharField(max_length=254, default='Type College Name')
     Gender = models.CharField(max_length=2, choices=gender, default='SL')
     Phone = models.CharField(max_length=10, validators=[MinLengthValidator(10), MaxLengthValidator(10)])
-    image = models.ImageField(upload_to='profile_images/', blank=True, default='profile.jpg')
+    image = models.ImageField(upload_to='profile_images/', blank=True)
 
     objects = CustomUserManager()
 
     def __str__(self):
         return self.email
-    
-    def save(self, *args, **kwargs):
-        self.image = self.compressImage(self.image)
-        super(User, self).save(*args, **kwargs)
-
-    def compressImage(self,uploadedImage):
-        imageTemproary = Image.open(uploadedImage)
-        outputIoStream = BytesIO()
-        imageTemproaryResized = imageTemproary.resize( (400,400) ) 
-        imageTemproaryResized.save(outputIoStream , format='JPEG', quality=60)
-        outputIoStream.seek(0)
-        uploadedImage = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
-        return uploadedImage
 
 class Query(models.Model):
     name = models.CharField(max_length=50)
