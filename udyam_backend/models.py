@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, MaxLengthValidator
+from django.utils import timezone
 
 class Event(models.Model):
     eventnames = [
@@ -60,3 +61,15 @@ class Content(models.Model):
     def __str__(self):
         string = 'Future Context, ' + str(self.date)
         return string
+
+class BroadCast_Email(models.Model):
+    subject = models.CharField(max_length=200)
+    created = models.DateTimeField(default=timezone.now)
+    message = models.TextField()
+
+    def __unicode__(self):
+        return self.subject
+
+    class Meta:
+        verbose_name = "BroadCast Email to all Members"
+        verbose_name_plural = "BroadCast Email"
