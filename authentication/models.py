@@ -3,6 +3,10 @@ from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.contrib.auth.models import AbstractUser
 
 from .managers import CustomUserManager
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
 
 class User(AbstractUser):
     college_year = [
@@ -34,6 +38,19 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+    def save(self, *args, **kwargs):
+        self.image = self.compressImage(self.image)
+        super(User, self).save(*args, **kwargs)
+
+    def compressImage(self,uploadedImage):
+        imageTemproary = Image.open(uploadedImage)
+        outputIoStream = BytesIO()
+        imageTemproaryResized = imageTemproary.resize( (400,400) ) 
+        imageTemproaryResized.save(outputIoStream , format='JPEG', quality=60)
+        outputIoStream.seek(0)
+        uploadedImage = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+        return uploadedImage
 
 class Query(models.Model):
     name = models.CharField(max_length=50)
