@@ -32,7 +32,7 @@ class User(AbstractUser):
     College_name = models.CharField(max_length=254, default='Type College Name')
     Gender = models.CharField(max_length=2, choices=gender, default='SL')
     Phone = models.CharField(max_length=10, validators=[MinLengthValidator(10), MaxLengthValidator(10)])
-    image = models.ImageField(upload_to='profile_images/', blank=True)
+    image = models.ImageField(upload_to='profile_images/', blank=True, default='profile.jpg')
 
     objects = CustomUserManager()
 
