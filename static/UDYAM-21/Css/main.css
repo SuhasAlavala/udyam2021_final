@@ -103,8 +103,16 @@
   color: #ffffff;
   margin: 0 0 5px;
 }
+@media only screen and (max-width: 400px) {
+    .main-timeline3 .year{
+        font-size: 0.9rem;
+    }
+    .main-timeline3 .description{
+        font-size: 1rem;
+    }
+}
 
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 370px) {
     .main-timeline3 .year{
         font-size: 0.6rem;
     }
