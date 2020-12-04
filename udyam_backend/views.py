@@ -78,17 +78,10 @@ def Team_delete(request, id):
 @login_required
 def Update_User(request):
     if request.method == 'POST':
-        if request.POST.get('image') == '':
-            currentUser = request.user
-            currentUser.first_name = request.POST.get('username')
-            currentUser.Phone = request.POST.get('contact')
-            currentUser.save()
-        else:
-            currentUser = request.user
-            currentUser.first_name = request.POST.get('username')
-            currentUser.Phone = request.POST.get('contact')
-            currentUser.image = request.FILES['image']
-            currentUser.save()
+        currentUser = request.user
+        currentUser.first_name = request.POST.get('username')
+        currentUser.Phone = request.POST.get('contact')
+        currentUser.save()
         return HttpResponseRedirect('dashboard')
     else:
         return HttpResponseRedirect('dashboard')
