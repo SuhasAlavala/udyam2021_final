@@ -195,7 +195,7 @@
                                             <th scope="col">Workshop</th>
                                             <th scope="col">Schedule</th>
                                             <th scope="col">Time</th>
-                                            <th scope="col">Watch Here</th>
+                                            <th scope="col">URL</th>
                                           </tr>
                                         </thead>
                                         <tbody>
@@ -208,7 +208,7 @@
                                             <td data-label="Workshop">{{ Workshop.event }}</td>
                                             <td data-label="Schedule">{{ Workshop.date }}</td>
                                             <td data-label="My Score">{{ Workshop.time }}</td>
-                                            <td data-label="Join Here"><a href="{{ Workshop.url }}" target="_blank">Join</a></td>
+                                            <td data-label="Join Here"><a href="{{ Workshop.url }}" target="_blank">Watch here</a></td>
                                           </tr>
                                           {% endfor %}
                                         <!-- </table>
