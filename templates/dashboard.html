@@ -335,10 +335,6 @@
                                                 <label>Contact No.</label>
                                                 <input type="number" required class="form-control" name="contact" aria-describedby="emailHelp" placeholder="Contact Number">
                                             </div>
-                                            <div class="form-group">
-                                                <label>Profile Picture</label>
-                                                <input type="file" class="form-control" accept="image/*" name="image" placeholder="Password">
-                                            </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-primary">Save changes</button>
@@ -415,7 +411,7 @@
                 var year = '{{ user.Year }}'
                 
                 if(year == '2' || year == '3' || year == '4'){
-                    if(event == 3 || event == '7' || event == '8' || event == '9' || event == '4' || event == '6'){
+                    if(event == '5' || event == '6' || event == '8' || event == '9' || event == '10' || event == '11'){
                         $('#id_number_of_members').html('<option value selected>Select No. Of Members</option>' + 
                                                         '<option value="1">1</option>' +
                                                         '<option value="2">2</option>');

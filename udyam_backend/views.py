@@ -50,7 +50,6 @@ def Dashboard(request):
     elif request.user.Year == '2' or request.user.Year == '3' or request.user.Year == '4':
         no_of_members = 2
     data = {
-        'no_of_members': no_of_members,
         'teams': TEAMS,
         'workshop': Workshop.objects.all()
     }
