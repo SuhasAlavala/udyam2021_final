@@ -45,9 +45,9 @@ def Dashboard(request):
 
     TEAMS = zip(teams, names_of_members)
 
-    if user.Year == '1':
+    if request.user.Year == '1':
         no_of_members = 3
-    elif user.Year == '2' or user.Year == '3' or user.Year == '4':
+    elif request.user.Year == '2' or request.user.Year == '3' or request.user.Year == '4':
         no_of_members = 2
     data = {
         'no_of_members': no_of_members,
