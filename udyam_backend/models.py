@@ -20,6 +20,7 @@ class Event(models.Model):
     members_from_1st_year = models.IntegerField()
     members_after_1st_year = models.IntegerField()
     score = models.IntegerField(blank=True)
+    group_link = models.CharField(max_length=100)
 
     def __str__(self):
         return self.eventname
@@ -29,7 +30,7 @@ class Team(models.Model):
         ('SL', 'Select No. of Members'),
         ('1', '1'),
         ('2', '2'),
-        ('3,', '3')
+        ('3', '3')
     ]
 
     number_of_members = models.CharField(max_length=2, choices=members, default='SL')

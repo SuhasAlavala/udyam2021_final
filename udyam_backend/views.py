@@ -1,10 +1,15 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib.auth.decorators import login_required
 from authentication.models import User
+from udyam_backend.models import Event
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Team, Workshop
 from .forms import NewTeam
+
+from django.template.loader import get_template
+from django.core.mail import EmailMessage
 
 @login_required
 def Dashboard(request):
@@ -39,7 +44,7 @@ def Dashboard(request):
             names_of_members.append(team_names)
 
     TEAMS = zip(teams, names_of_members)
-    no_of_members = None
+
     if user.Year == '1':
         no_of_members = 3
     elif user.Year == '2' or user.Year == '3' or user.Year == '4':
@@ -49,24 +54,92 @@ def Dashboard(request):
         'teams': TEAMS,
         'workshop': Workshop.objects.all()
     }
+
     if request.method == 'POST':
-        form = NewTeam(request.POST, year=user.Year)
+        form = NewTeam(request.POST)
         if form.is_valid():
+            mail_subject = 'Confirmation of registration in ' +  form.cleaned_data.get('event').eventname + ' and WhatsApp group invitation.'
+            ctx = {
+                    'teamname': form.cleaned_data.get('team_name'),
+                    'event': form.cleaned_data.get('event'),
+                    'leader': User.objects.get(email=form.cleaned_data.get('Team_leader')).first_name
+            }
+            if isTeamNameTaken(form.cleaned_data.get('team_name'), form.cleaned_data.get('event')):
+                return render(request, 'dashboard.html', {'data': data, 'form': form, 'teamnametaken': True})
+
             if form.cleaned_data.get('number_of_members') == '1':
-                if form.cleaned_data.get('Team_leader') == '':
-                    print('1')
-                    return render(request, 'dashboard.html', {'data': data, 'form':form, 'emailerror':'Fill the email'})
+                try:
+                    team_leader = User.objects.get(email=form.cleaned_data.get('Team_leader'))
+                    status = IsUserAlreadyRegister(team_leader, form.cleaned_data.get('event'))
+                    if status:
+                        return render(request, 'dashboard.html', {'data': data, 'form': form, 'leaderalready': True})
+                except ObjectDoesNotExist:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'leaderemail': True})
+                if request.user!=team_leader:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'notinteam': True})
+
+                message = get_template('whatsapp_grp_invite.html').render(ctx)
+                email = EmailMessage(mail_subject, message, to=[team_leader.email])
             elif form.cleaned_data.get('number_of_members') == '2':
-                if form.cleaned_data.get('Team_leader') == '' or form.cleaned_data.get('member1') == '':
-                    return render(request, 'dashboard.html', {'data': data, 'form':form, 'emailerror':'Fill the email'})
-            elif form.cleaned_data.get('number_of_members') == '3':
-                if form.cleaned_data.get('Team_leader') == '' or form.cleaned_data.get('member1') == '' or form.cleaned_data.get('member2') == '':
-                    return render(request, 'dashboard.html', {'data': data, 'form':form, 'emailerror':'Fill the email'})
+                try:
+                    team_leader = User.objects.get(email=form.cleaned_data.get('Team_leader'))
+                    status = IsUserAlreadyRegister(team_leader, form.cleaned_data.get('event'))
+                    if status:
+                        return render(request, 'dashboard.html', {'data': data, 'form': form, 'leaderalready': True})
+                except ObjectDoesNotExist:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'leaderemail': True})
+                try:
+                    member1 = User.objects.get(email=form.cleaned_data.get('member1'))
+                    status = IsUserAlreadyRegister(member1, form.cleaned_data.get('event'))
+                    if status:
+                        return render(request, 'dashboard.html', {'data': data, 'form': form, 'member1already': True})
+                except ObjectDoesNotExist:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'member1email': True})
+                if team_leader==member1:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'teaminvalid': True})
+                if request.user!=team_leader and request.user!=member1:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'notinteam': True})
+
+                message = get_template('whatsapp_grp_invite.html').render(ctx)
+                email = EmailMessage(mail_subject, message, to=[team_leader.email, member1.email])
+            else:
+                try:
+                    team_leader = User.objects.get(email=form.cleaned_data.get('Team_leader'))
+                    status = IsUserAlreadyRegister(team_leader, form.cleaned_data.get('event'))
+                    if status:
+                        return render(request, 'dashboard.html', {'data': data, 'form': form, 'leaderalready': True})
+                except ObjectDoesNotExist:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'leaderemail': True})
+                try:
+                    member1 = User.objects.get(email=form.cleaned_data.get('member1'))
+                    status = IsUserAlreadyRegister(member1, form.cleaned_data.get('event'))
+                    if status:
+                        return render(request, 'dashboard.html', {'data': data, 'form': form, 'member1already': True})
+                except ObjectDoesNotExist:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'member1email': True})
+                try:
+                    member2 = User.objects.get(email=form.cleaned_data.get('member2'))
+                    status = IsUserAlreadyRegister(member2, form.cleaned_data.get('event'))
+                    if status:
+                        return render(request, 'dashboard.html', {'data': data, 'form': form, 'member2already': True})
+                except ObjectDoesNotExist:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'member2email': True})
+                if team_leader==member1 or member1==member2 or team_leader==member2:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'teaminvalid': True})
+                if request.user!=team_leader and request.user!=member1 and request.user!=member2:
+                    return render(request, 'dashboard.html', {'data': data, 'form': form, 'notinteam': True})
+
+                message = get_template('whatsapp_grp_invite.html').render(ctx)
+                email = EmailMessage(mail_subject, message, to=[team_leader.email, member1.email, member2.email])
+            
+            email.content_subtype = "html"
+            email.send()
             form.save()
             return HttpResponseRedirect('dashboard')
     else:
-        form = NewTeam(year=user.Year)
+        form = NewTeam()
     return render(request, 'dashboard.html', {'data': data, 'form':form})
+
 
 @login_required
 def Team_delete(request, id):
@@ -85,3 +158,44 @@ def Update_User(request):
         return HttpResponseRedirect('dashboard')
     else:
         return HttpResponseRedirect('dashboard')
+
+def IsUserAlreadyRegister(email, event):
+    try:
+        teams1 = Team.objects.filter(Team_leader=email)
+    except:
+        teams1 = None
+    try:
+        teams2 = Team.objects.filter(member1=email)
+    except:
+        teams2 = None
+    try:
+        teams3 = Team.objects.filter(member2=email)
+    except:
+        teams3 = None
+    if teams1 is not None:
+        for team in teams1:
+            if team.event == event:
+                return True
+    if teams2 is not None:
+        for team in teams2:
+            if team.event == event:
+                return True
+    if teams3 is not None:
+        for team in teams3:
+            if team.event == event:
+                return True
+    return False
+
+def isTeamNameTaken(name, event):
+    try:
+        teams = Team.objects.filter(team_name=name)
+    except:
+        teams = None
+    if teams is not None:
+        for team in teams:
+            if team.event == event:
+                return True
+    return False
+
+def teamView(request):
+    return render(request, 'team.html')

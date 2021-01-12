@@ -182,9 +182,6 @@
 
     </style>
 
-    <!-- contactus????????????????????????? -->
-
-    <!-- <title>CONTACT US</title> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -233,8 +230,8 @@
                         <li class="menu__item"><a href="#events" class="menu__link" onclick="smoothScroll(document.getElementById('ourevents'))"><span class="menu__helper">Events</span></a></li>
                         <li class="menu__item"><a href="#speakers" class="menu__link" onclick="smoothScroll(document.getElementById('ourspeakers'))"><span class="menu__helper">Speakers</span></a></li>
                         <li class="menu__item"><a href="#schedule" class="menu__link" onclick="smoothScroll(document.getElementById('ourschedule'))"><span class="menu__helper">Schedule</span></a></li>
-                        <li class="menu__item"><a href="#contactus" class="menu__link" onclick="smoothScroll(document.getElementById('oursponsors'))"><span class="menu__helper">Sponsors</span></a></li>
-                        <li class="menu__item"><a href="#contactus" class="menu__link" onclick="smoothScroll(document.getElementById('ourcontact'))"><span class="menu__helper">Contact Us</span></a></li>
+                        <li class="menu__item"><a href="#sponsors" class="menu__link" onclick="smoothScroll(document.getElementById('oursponsors'))"><span class="menu__helper">Sponsors</span></a></li>
+                        <li class="menu__item"><a class="menu__link" onclick="window.open('https://www.udyamfest.com/team/')" style="color:#e6dede;"><span class="menu__helper">Team</span></a></li>
                         
                     </ul>
                 </nav>
@@ -272,7 +269,7 @@
                             <a href="#sponsors" style="text-decoration: none" onclick="smoothScroll(document.getElementById('oursponsors'))">Sponsors</a>
                         </li>
                         <li class="clickme">
-                            <a href="#contactus" style="text-decoration: none" onclick="smoothScroll(document.getElementById('ourcontact'))">Contact Us</a>
+                            <a href="{% url 'team' %}" style="text-decoration: none">Team</a>
                         </li>
                         {% if user.is_authenticated %}
                             <li class="clickme">
@@ -405,7 +402,7 @@
 
     <!-- about us -->
 
-    <div class="px-2 pt-3 pt-md-5 row section-2" data-emit-events="" id="aboutudyam">
+    <div class="px-2 pt-3 row section-2" data-emit-events="" id="aboutudyam">
         <div class="col text-center justify-content-center align-items-center d-flex flex-column">
             <div class="heading-containter">
                 <p class="headingp"><a class="headinga">ABOUT US</a></p>
@@ -680,7 +677,7 @@
         <p class="headingp"><a class="headinga">SPEAKERS</a></p>
     </div>
     <div class="speakers col-24">
-        <div class="wrap col-md-3 col-12">
+        <div class="col-md-3 col-12">
 
             <div class="card">
                 <div class="card-liner">
@@ -711,7 +708,7 @@
             </div>
 
         </div>
-        <div class="wrap col-md-3 col-12">
+        <div class="col-md-3 col-12">
 
             <div class="card">
                 <div class="card-liner">
@@ -742,7 +739,7 @@
             </div>
 
         </div>
-        <div class="wrap col-md-3 col-12">
+        <div class="col-md-3 col-12">
 
             <div class="card">
                 <div class="card-liner">
