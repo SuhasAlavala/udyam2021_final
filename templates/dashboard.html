@@ -105,11 +105,7 @@
         <div class="cover--header pt--80 text-center" data-bg-img="{% static 'dashboard/img/cover.jpg' %}" >
             <div class="container">
                 <div class="cover--avatar online" data-overlay="0.3" data-overlay-color="primary">
-                    {% if user.image %}
-                        <img src="/media/{{ user.image }}" alt="">
-                    {% else %}
-                        <img src="{% static 'dashboard/img/profile.jpg' %}" alt="">
-                    {% endif %}
+                    <img src="{% static 'dashboard/img/profile.jpg' %}" alt="">
                 </div>
 
                 <div class="cover--user-name">
