@@ -58,11 +58,14 @@ def Dashboard(request):
         form = NewTeam(request.POST)
         if form.is_valid():
             mail_subject = 'Confirmation of registration in ' +  form.cleaned_data.get('event').eventname + ' and WhatsApp group invitation.'
-            ctx = {
-                    'teamname': form.cleaned_data.get('team_name'),
-                    'event': form.cleaned_data.get('event'),
-                    'leader': User.objects.get(email=form.cleaned_data.get('Team_leader')).first_name
-            }
+            try:
+                ctx = {
+                        'teamname': form.cleaned_data.get('team_name'),
+                        'event': form.cleaned_data.get('event'),
+                        'leader': User.objects.get(email=form.cleaned_data.get('Team_leader')).first_name
+                }
+            except:
+                pass
             if isTeamNameTaken(form.cleaned_data.get('team_name'), form.cleaned_data.get('event')):
                 return render(request, 'dashboard.html', {'data': data, 'form': form, 'teamnametaken': True})
 
