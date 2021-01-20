@@ -74,3 +74,13 @@ class BroadCast_Email(models.Model):
     class Meta:
         verbose_name = "BroadCast Email to all Members"
         verbose_name_plural = "BroadCast Email"
+
+class Team_List(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    def __unicode__(self):
+        return self.event.eventname
+
+    class Meta:
+        verbose_name = "Team List"
+        verbose_name_plural = "Team List"

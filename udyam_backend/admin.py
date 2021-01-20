@@ -1,5 +1,5 @@
 from django.contrib import admin
-from udyam_backend.models import Event, Team, Workshop, Content, BroadCast_Email
+from udyam_backend.models import Event, Team, Workshop, Content, BroadCast_Email, Team_List
 
 from django.utils.safestring import mark_safe
 from django.db import models
@@ -8,6 +8,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.core.mail import (send_mail, BadHeaderError, EmailMessage)
 from authentication.models import User
+from .sheets import addtosheet
 
 class EmailThread(threading.Thread):
     def __init__(self, subject, html_content, recipient_list):
@@ -48,7 +49,23 @@ class BroadCast_Email_Admin(admin.ModelAdmin):
     list_display = ("subject", "created")
     search_fields = ['subject',]
 
+class Team_List_Admin(admin.ModelAdmin):
+    model = Team_List
+
+    def update_list(self, request, objects_selected):
+        for obj in objects_selected:
+            teamlist = Team.objects.filter(event = obj.event)
+            sheetname = obj.event.eventname + " Teams"
+            addtosheet(sheetname, teamlist)
+    update_list.short_description = 'Update selected events team list'
+
+    actions = [ 'update_list' ]
+    list_display = ("event", )
+
+
+
 admin.site.register(BroadCast_Email, BroadCast_Email_Admin)
+admin.site.register(Team_List, Team_List_Admin)
 admin.site.register(Event)
 admin.site.register(Team)
 admin.site.register(Workshop)
