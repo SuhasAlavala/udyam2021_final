@@ -13,41 +13,44 @@ def addtosheet(sheetname, teamslist):
 
 	i=1
 	for team in teamslist:
-		try:
-			leader = User.objects.get(email=team.Team_leader)
-		except:
-			leader = None
-		try:
-			member1 = User.objects.get(email=team.member1)
-		except:
-			member1 = None
-		try:
-			member2 = User.objects.get(email=team.member2)
-		except:
-			member2 = None
+		# try:
+		# 	leader = User.objects.get(email=team.Team_leader)
+		# except:
+		# 	leader = None
+		# try:
+		# 	member1 = User.objects.get(email=team.member1)
+		# except:
+		# 	member1 = None
+		# try:
+		# 	member2 = User.objects.get(email=team.member2)
+		# except:
+		# 	member2 = None
 
 
-		if member2:
-			row = [str(i), team.team_name, "", leader.first_name, "", member1.first_name, "", member2.first_name]
-			sheet.append_row(row)
-			row = [" ", " ", " ", leader.email, "", member1.email, "", member2.email]
-			sheet.append_row(row)
-			row = [" ", " ", " ", leader.Phone, "", member1.Phone, "", member2.Phone]
-			sheet.append_row(row)
-		elif member1:
-			row = [str(i), team.team_name, "", leader.first_name, "", member1.first_name, "", "None"]
-			sheet.append_row(row)
-			row = [" ", " ", " ", leader.email, "", member1.email, "", "None"]
-			sheet.append_row(row)
-			row = [" ", " ", " ", leader.Phone, "", member1.Phone, "", "None"]
-			sheet.append_row(row)
-		elif leader:
-			row = [str(i), team.team_name, "", leader.first_name, "", "None", "", "None"]
-			sheet.append_row(row)
-			row = [" ", " ", " ", leader.email, "", "None", "", "None"]
-			sheet.append_row(row)
-			row = [" ", " ", " ", leader.Phone, "", "None", "", "None"]
-			sheet.append_row(row)
+		# if member2:
+		# 	row = [str(i), team.team_name, "", leader.first_name, "", member1.first_name, "", member2.first_name]
+		# 	sheet.append_row(row)
+		# 	row = [" ", " ", " ", leader.email, "", member1.email, "", member2.email]
+		# 	sheet.append_row(row)
+		# 	row = [" ", " ", " ", leader.Phone, "", member1.Phone, "", member2.Phone]
+		# 	sheet.append_row(row)
+		# elif member1:
+		# 	row = [str(i), team.team_name, "", leader.first_name, "", member1.first_name, "", "None"]
+		# 	sheet.append_row(row)
+		# 	row = [" ", " ", " ", leader.email, "", member1.email, "", "None"]
+		# 	sheet.append_row(row)
+		# 	row = [" ", " ", " ", leader.Phone, "", member1.Phone, "", "None"]
+		# 	sheet.append_row(row)
+		# elif leader:
+		# 	row = [str(i), team.team_name, "", leader.first_name, "", "None", "", "None"]
+		# 	sheet.append_row(row)
+		# 	row = [" ", " ", " ", leader.email, "", "None", "", "None"]
+		# 	sheet.append_row(row)
+		# 	row = [" ", " ", " ", leader.Phone, "", "None", "", "None"]
+		# 	sheet.append_row(row)
+
+		row = [str(i), team.team_name, "", team.Team_leader, "", team.member1, "", team.member2]
+		sheet.append_row(row)
 
 		sheet.append_row(["-", "-", "-", "-", "-", "-", "-", "-"])
 		i = i+1
