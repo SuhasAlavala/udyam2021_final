@@ -24,13 +24,19 @@ class EmailThread(threading.Thread):
         msg2.content_subtype = "html"
         msg3 = EmailMessage(self.subject, self.html_content, settings.EMAIL_HOST_USER, self.recipient_list[200:300])
         msg3.content_subtype = "html"
-        msg4 = EmailMessage(self.subject, self.html_content, settings.EMAIL_HOST_USER, self.recipient_list[300:])
+        msg4 = EmailMessage(self.subject, self.html_content, settings.EMAIL_HOST_USER, self.recipient_list[300:400])
         msg4.content_subtype = "html"
+        msg5 = EmailMessage(self.subject, self.html_content, settings.EMAIL_HOST_USER, self.recipient_list[400:500])
+        msg5.content_subtype = "html"
+        msg6 = EmailMessage(self.subject, self.html_content, settings.EMAIL_HOST_USER, self.recipient_list[500:])
+        msg6.content_subtype = "html"
         try:
             msg1.send()
             msg2.send()
             msg3.send()
             msg4.send()
+            msg5.send()
+            msg6.send()
         except BadHeaderError:
             return HttpResponse('Invalid header found.')
 
