@@ -68,11 +68,16 @@ class Team_List_Admin(admin.ModelAdmin):
     actions = [ 'update_list' ]
     list_display = ("event", )
 
+class Team_Admin(admin.ModelAdmin):
+    model = Team
+    search_fields = ['event__eventname']
+    list_display = ("team_name", "event")
+
 
 
 admin.site.register(BroadCast_Email, BroadCast_Email_Admin)
 admin.site.register(Team_List, Team_List_Admin)
 admin.site.register(Event)
-admin.site.register(Team)
+admin.site.register(Team, Team_Admin)
 admin.site.register(Workshop)
 admin.site.register(Content)

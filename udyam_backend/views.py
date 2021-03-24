@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Team, Workshop
 from .forms import NewTeam
+from .sheets import appendtosheet
 
 from django.template.loader import get_template
 from django.core.mail import EmailMessage
@@ -137,6 +138,12 @@ def Dashboard(request):
             email.content_subtype = "html"
             email.send()
             form.save()
+            try:
+                team = Team.objects.get(team_name = ctx['teamname'], event = ctx['event'])
+                sheetname = ctx['event'].eventname + " Teams"           
+                appendtosheet(sheetname, team)
+            except Exception as e:
+                pass
             return HttpResponseRedirect('dashboard')
     else:
         form = NewTeam()
