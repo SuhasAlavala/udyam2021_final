@@ -11,11 +11,11 @@ def addtosheet(sheetname, teamslist):
 	sheet.delete_rows(2, sheet.row_count)
 
 	rows=[]
-	rows.append(["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"])
+	rows.append(["Serial No", "Team Name", "", "", "Team Leader", "", "", "Member 2", "", "", "Member 3"])
 	i=1
 
 	for team in teamslist:
-		rows.extend([[str(i), team.team_name, "", "", team.Team_leader, "", "", team.member1, "", "", team.member2], ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]])
+		rows.extend([["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"], [str(i), team.team_name, "", "", team.Team_leader, "", "", team.member1, "", "", team.member2]])
 		i=i+1
 
 	sheet.append_rows(rows)
@@ -28,6 +28,6 @@ def appendtosheet(sheetname, team):
 	client = gspread.authorize(creds)
 	sheet = client.open(sheetname).sheet1
 
-	i = int(sheet.row_count/2)
-	rows = [[str(i), team.team_name, "", "", team.Team_leader, "", "", team.member1, "", "", team.member2], ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]]
+	i = int((sheet.row_count+1)/2)
+	rows = [["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"], [str(i), team.team_name, "", "", team.Team_leader, "", "", team.member1, "", "", team.member2]]
 	sheet.append_rows(rows)
