@@ -75,6 +75,18 @@ class BroadCast_Email(models.Model):
         verbose_name = "BroadCast Email to all Members"
         verbose_name_plural = "BroadCast Email"
 
+class Personal_Email(models.Model):
+    subject = models.CharField(max_length=200)
+    created = models.DateTimeField(default=timezone.now)
+    message = models.TextField()
+
+    def __unicode__(self):
+        return self.subject
+
+    class Meta:
+        verbose_name = "Personal Email to all Members"
+        verbose_name_plural = "Personal Email"
+
 class Team_List(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
