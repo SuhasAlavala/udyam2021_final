@@ -1,1 +1,1 @@
-web: gunicorn Udyam21.wsgi --log-file -
+web: gunicorn Udyam21.wsgi --log-file
