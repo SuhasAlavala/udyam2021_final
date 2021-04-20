@@ -12,6 +12,9 @@ from .sheets import appendtosheet
 from django.template.loader import get_template
 from django.core.mail import EmailMessage
 
+def LeaderBoard(request):
+    return render(request, 'leaderboard.html')
+
 @login_required
 def Dashboard(request):
     user = User.objects.get(email=request.user)
